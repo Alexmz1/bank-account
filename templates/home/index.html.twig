@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}My Bank App{% endblock %}
+
+{% block body %}
+    <div class="min-h-screen flex flex-col items-center justify-center">
+        <div class="text-center">
+            <div class="flex justify-center mb-4">
+                <img src="{{ asset('logo.png') }}" alt="Logo" class="w-32 h-32">
+            </div>
+            <h1 class="text-4xl font-bold mb-4">Bienvenue dans votre gestionnaire bancaire personnel</h1>
+            <p class="text-lg">Gérez vos comptes et vos transactions sans effort.</p>
+        </div>
+
+        <div class="mt-6 flex justify-start space-x-4">
+            <a href="{{ path('app_login') }}" class="btn btn-primary rounded-md text-white">Se connecter</a>
+            <a href="{{ path('app_register') }}" class="btn btn-secondary rounded-md text-white">S'inscrire</a>
+        </div>
+    </div>
+{% endblock %}

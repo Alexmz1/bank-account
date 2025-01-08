@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Profil - {% endblock %}
+
+{% block stylesheets %}
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@1.4.6/dist/full.css" rel="stylesheet">
+{% endblock %}
+
+{% block body %}
+    <div class="flex min-h-screen bg-gray-100">
+
+        {% include 'parts/left_bar.html.twig' %}
+
+        <!-- Main Content -->
+        <main class="flex-1 p-6">
+            <!--<header class="flex items-center justify-between mb-6 bg-primary p-4 rounded-lg">
+                
+            </header>-->
+
+            <!-- Dashboard Content Here -->
+            <div class="card bg-base-300 shadow-lg">
+                <div class="card-body">
+                    <h2 class="card-title">Votre profil</h2>
+                    <img src="#" alt="Profile Picture" class="rounded-full w-24 h-24 my-4">
+                    <span class="font-bold">{{ user.firstName }}</span>
+                    <p>Email: </p>
+                    <div class="card-actions justify-end">
+                        <button class="btn btn-primary">Modifier le profil</button>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+{% endblock %}
