@@ -46,8 +46,8 @@
     <div class="p-4 border-t border-gray-300">
         <button id="dropdownToggle" class="flex items-center justify-between w-full space-x-2 focus:outline-none">
             <div class="flex items-center space-x-2">
-                <img class="w-8 h-8 rounded-full" src="https://placekitten.com/40/40" alt="User Avatar">
-                <span>Nom prénom</span>
+                <img class="w-8 h-8 rounded-full" src="{{ app.user.profilePicture ? asset('uploads/profile_pictures/' ~ app.user.profilePicture) : asset('default-profile-picture.png') }}" alt="User Avatar">
+                <span>{{ app.user.firstName }} {{ app.user.lastName }}</span>
             </div>
             <svg class="w-6 h-6 transform transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"></path>
@@ -61,26 +61,29 @@
             <a href="{{ path('app_logout') }}" class="block px-4 py-2 text-gray-800 hover:bg-primary-dark hover:text-primary rounded-b-lg transition-colors duration-200">Se déconnecter</a>
             </div>
         </div>
-    </div>
-</aside>
+        </div>
+    </aside>
 
-<script>
-    // Get dropdown elements
-    const dropdownToggle = document.getElementById('dropdownToggle');
-    const dropdownMenu = document.getElementById('dropdownMenu');
+    <script>
+        // Get dropdown elements
+        const dropdownToggle = document.getElementById('dropdownToggle');
+        const dropdownMenu = document.getElementById('dropdownMenu');
+        const dropdownIcon = dropdownToggle.querySelector('svg');
 
-    // Toggle dropdown visibility on click
-    dropdownToggle.addEventListener('click', () => {
+        // Toggle dropdown visibility on click
+        dropdownToggle.addEventListener('click', () => {
         dropdownMenu.classList.toggle('hidden');
-    });
+        dropdownIcon.classList.toggle('rotate-180');
+        });
 
-    // Close dropdown when clicking outside
-    document.addEventListener('click', (e) => {
+        // Close dropdown when clicking outside
+        document.addEventListener('click', (e) => {
         if (!dropdownToggle.contains(e.target) && !dropdownMenu.contains(e.target)) {
             dropdownMenu.classList.add('hidden');
+            dropdownIcon.classList.remove('rotate-180');
         }
-    });
-</script>
+        });
+    </script>
 
 {% block javascripts %}
 <script src="https://cdn.jsdelivr.net/npm/alpinejs@2.8.2/dist/alpine.min.js"></script>
