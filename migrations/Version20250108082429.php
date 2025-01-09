@@ -19,7 +19,6 @@ final class Version20250108082429 extends AbstractMigration
 
     public function up(Schema $schema): void
     {
-        // this up() migration is auto-generated, please modify it to your needs
         $this->addSql('ALTER TABLE account CHANGE updated_at updated_at DATETIME NOT NULL');
         $this->addSql('ALTER TABLE payment_method CHANGE updated_at updated_at DATETIME NOT NULL');
         $this->addSql('ALTER TABLE transaction CHANGE updated_at updated_at DATETIME NOT NULL');
@@ -28,7 +27,6 @@ final class Version20250108082429 extends AbstractMigration
 
     public function down(Schema $schema): void
     {
-        // this down() migration is auto-generated, please modify it to your needs
         $this->addSql('ALTER TABLE account CHANGE updated_at updated_at DATETIME NOT NULL COMMENT \'(DC2Type:datetime_immutable)\'');
         $this->addSql('ALTER TABLE payment_method CHANGE updated_at updated_at DATETIME NOT NULL COMMENT \'(DC2Type:datetime_immutable)\'');
         $this->addSql('ALTER TABLE transaction CHANGE updated_at updated_at DATETIME NOT NULL COMMENT \'(DC2Type:datetime_immutable)\'');

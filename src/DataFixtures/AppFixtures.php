@@ -22,29 +22,29 @@ class AppFixtures extends Fixture
              ->setLastName('Doe')
              ->setEmail('john.doe@example.com')
              ->setPassword(password_hash('password', PASSWORD_BCRYPT))
-             ->setRole(RoleUserEnum::USER)
+             ->setRoles(['ROLE_USER'])
              ->setCreatedAt(new \DateTimeImmutable())
              ->setUpdatedAt(new \DateTime());
         $manager->persist($user);
 
         // Admin
         $admin = new User();
-        $admin->setFirstName('Jane')
+        $admin->setEmail('jane.doe@example.com')
+              ->setFirstName('Jane')
               ->setLastName('Doe')
-              ->setEmail('jane.doe@example.com')
               ->setPassword(password_hash('password', PASSWORD_BCRYPT))
-              ->setRole(RoleUserEnum::ADMIN)
+              ->setRoles(['ROLE_ADMIN'])
               ->setCreatedAt(new \DateTimeImmutable())
               ->setUpdatedAt(new \DateTime());
         $manager->persist($admin);
 
         // Banned user
         $bannedUser = new User();
-        $bannedUser->setFirstName('Banned')
+        $bannedUser->setEmail('banned.user@example.com')
+                   ->setFirstName('Banned')
                    ->setLastName('User')
-                   ->setEmail('banned.user@example.com')
                    ->setPassword(password_hash('password', PASSWORD_BCRYPT))
-                   ->setRole(RoleUserEnum::BANNED)
+                   ->setRoles(['ROLE_BANNED'])
                    ->setCreatedAt(new \DateTimeImmutable())
                    ->setUpdatedAt(new \DateTime());
         $manager->persist($bannedUser);
@@ -63,7 +63,7 @@ class AppFixtures extends Fixture
                 ->setUpdatedAt(new \DateTime());
         $manager->persist($account);
 
-        // Payment methods
+        // Payment methode
         $paymentMethodVisa = new PaymentMethod();
         $paymentMethodVisa->setName('Visa')
                           ->setUser($user)

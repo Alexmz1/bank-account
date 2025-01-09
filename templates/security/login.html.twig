@@ -1,0 +1,78 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Connexion{% endblock %}
+
+{% block body %}
+<div class="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
+    <div class="sm:mx-auto sm:w-full sm:max-w-sm">
+        <h2 class="mt-10 text-center text-2xl/9 font-bold tracking-tight text-gray-900">Se connecter à votre compte</h2>
+    </div>
+
+    <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
+        <form class="space-y-6" method="post">
+            {% if error %}
+                <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+            {% endif %}
+
+            {% if app.user %}
+                <div class="mb-3">
+                    You are logged in as {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">Logout</a>
+                </div>
+            {% endif %}
+
+            <div>
+                <label for="email" class="block text-sm/6 font-medium text-gray-900">Email</label>
+                <div class="mt-2">
+                    <input type="email" name="email" id="email" value="{{ last_username }}" autocomplete="email" required class="block w-full rounded-md border border-gray-300 bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-primary sm:text-sm/6">
+                </div>
+            </div>
+
+            <div>
+                <div class="flex items-center justify-between">
+                    <label for="password" class="block text-sm/6 font-medium text-gray-900">Mot de passe</label>
+                    <div class="text-sm">
+                        <a href="#" class="font-semibold text-secondary">Mot de passe oublié ?</a>
+                    </div>
+                </div>
+                <div class="mt-2 relative">
+                    <input type="password" name="password" id="password" autocomplete="current-password" required class="block w-full rounded-md border border-gray-300 bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-primary sm:text-sm/6">
+                    <button type="button" onclick="togglePasswordVisibility()" class="absolute inset-y-0 right-0 flex items-center px-2 text-gray-600">
+                        <svg id="eye-icon" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                            <path d="M10 3C5.58 3 1.73 6.11 0 10c1.73 3.89 5.58 7 10 7s8.27-3.11 10-7c-1.73-3.89-5.58-7-10-7zm0 12a5 5 0 110-10 5 5 0 010 10zm0-8a3 3 0 100 6 3 3 0 000-6z"/>
+                        </svg>
+                    </button>
+                </div>
+                <script>
+                    function togglePasswordVisibility() {
+                        var passwordInput = document.getElementById('password');
+                        var eyeIcon = document.getElementById('eye-icon');
+                        if (passwordInput.type === 'password') {
+                            passwordInput.type = 'text';
+                            eyeIcon.innerHTML = '<path d="M10 3C5.58 3 1.73 6.11 0 10c1.73 3.89 5.58 7 10 7s8.27-3.11 10-7c-1.73-3.89-5.58-7-10-7zm0 12a5 5 0 110-10 5 5 0 010 10zm0-8a3 3 0 100 6 3 3 0 000-6z"/>';
+                        } else {
+                            passwordInput.type = 'password';
+                            eyeIcon.innerHTML = '<path d="M10 3C5.58 3 1.73 6.11 0 10c1.73 3.89 5.58 7 10 7s8.27-3.11 10-7c-1.73-3.89-5.58-7-10-7zm0 12a5 5 0 110-10 5 5 0 010 10zm0-8a3 3 0 100 6 3 3 0 000-6z"/>';
+                        }
+                    }
+                </script>
+            </div>
+
+            <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+
+            <label class="cursor-pointer flex items-center">
+                <input type="checkbox" name="_remember_me" id="remember_me" class="checkbox checkbox-secondary" />
+                <span class="label-text ml-2">Remember me</span>
+            </label>
+
+            <div>
+                <button type="submit" class="flex w-full justify-center rounded-md btn btn-primary text-white">Se connecter</button>
+            </div>
+        </form>
+
+        <p class="mt-10 text-center text-sm/6 text-gray-500">
+            Pas encore membre?
+            <a href="{{ path('app_register') }}" class="font-semibold text-secondary">Créer un compte</a>
+        </p>
+    </div>
+</div>
+{% endblock %}

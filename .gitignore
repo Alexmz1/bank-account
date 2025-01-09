@@ -23,10 +23,3 @@
 /public/assets/
 /assets/vendor/
 ###< symfony/asset-mapper ###
-
-/templates/security/*
-/templates/registration/*
-/src/Security/*
-/src/Controller/SecurityController.php
-/src/Form/RegistrationFormType.php
-/config/packages/security.yaml

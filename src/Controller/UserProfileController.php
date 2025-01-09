@@ -12,7 +12,6 @@ class UserProfileController extends AbstractController
     #[Route('/user-profile', name: 'app_user_profile')]
     public function index(): Response
     {
-        $user = $this->getUser();
 
     // if (!$user) {
     //     // Vérifiez si la session est active
@@ -20,8 +19,6 @@ class UserProfileController extends AbstractController
     // }
     
 
-    return $this->render('user_profile/index.html.twig', [
-        'user' => $user,
-    ]);
+    return $this->render('user_profile/index.html.twig');
     }
 }
