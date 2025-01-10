@@ -44,11 +44,18 @@ class AppAuthenticator extends AbstractLoginFormAuthenticator
 
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $firewallName): ?Response
     {
+        $user = $token->getUser();
+
+        // Vérifier si l'utilisateur est banni
+        if (in_array('ROLE_BANNED', $user->getRoles(), true)) {
+            return new RedirectResponse($this->urlGenerator->generate('app_logout'));
+        }
+
+        // Redirection normale
         if ($targetPath = $this->getTargetPath($request->getSession(), $firewallName)) {
             return new RedirectResponse($targetPath);
         }
 
-        // For example:
         return new RedirectResponse($this->urlGenerator->generate('app_user_profile'));
     }
 
