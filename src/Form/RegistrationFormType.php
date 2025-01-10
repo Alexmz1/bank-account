@@ -21,10 +21,6 @@ class RegistrationFormType extends AbstractType
             ->add('lastName')
             ->add('email')
             ->add('profilePicture')
-            ->add('profilePicture', null, [
-                'required' => false,
-                'empty_data' => 'public/default-profile-picture.png',
-            ])
             ->add('agreeTerms', CheckboxType::class, [
                 'mapped' => false,
                 'constraints' => [
