@@ -9,13 +9,6 @@
         </div>
     
         <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-            {% for type, messages in app.flashes %}
-                {% for message in messages %}
-                    <div class="alert alert-{{ type }}">
-                        {{ message }}
-                    </div>
-                {% endfor %}
-            {% endfor %}
             {{ form_start(registrationForm, {'attr': {'class': 'space-y-6'}}) }}
                 <div class="flex space-x-4">
                     <div class="w-1/2">

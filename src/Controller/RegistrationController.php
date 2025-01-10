@@ -24,13 +24,6 @@ class RegistrationController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $existingUser = $entityManager->getRepository(User::class)->findOneBy(['email' => $user->getEmail()]);
-            if ($existingUser) {
-                $this->addFlash('error', 'Cette adresse e-mail est déjà utilisée.');
-                return $this->render('registration/register.html.twig', [
-                    'registrationForm' => $form,
-                ]);
-            }
             /** @var string $plainPassword */
             $plainPassword = $form->get('plainPassword')->getData();
 
@@ -38,7 +31,7 @@ class RegistrationController extends AbstractController
             $user->setPassword($userPasswordHasher->hashPassword($user, $plainPassword));
 
             // set the default role to 'ROLE_USER'
-            $user->setRoles(["ROLE_USER"]);
+            $user->setRole(RoleUserEnum::USER);
 
             $user->setCreatedAt(new \DateTimeImmutable());
             $user->setUpdatedAt(new \DateTime());
@@ -47,7 +40,7 @@ class RegistrationController extends AbstractController
 
             // do anything else you need here, like send an email
 
-            return $security->login($user, 'debug.App\Security\AppAuthenticator', 'main');
+            return $security->login($user, 'debug.App\Security\LoginFormAuthenticator', 'main');
         }
 
         return $this->render('registration/register.html.twig', [
