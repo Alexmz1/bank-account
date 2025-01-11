@@ -1,0 +1,63 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Account index{% endblock %}
+
+{% block stylesheets %}
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@1.4.6/dist/full.css" rel="stylesheet">
+{% endblock %}
+
+{% block body %}
+<div class="flex min-h-screen bg-gray-100">
+
+    {% include 'parts/left_bar.html.twig' with {'class': 'w-1/6'} %}
+
+    <!-- Main Content -->
+    <div class="flex-1 p-6 overflow-x-auto">
+        <h1 class="text-2xl font-bold mb-4 text-center">Mes comptes</h1>
+        <div class="overflow-x-auto mt-10">
+            <table class="table w-full">
+                <thead>
+                    <tr>
+                        <th>Prénom</th>
+                        <th>Nom</th>
+                        <th>Nom de la banque</th>
+                        <th>Numéro du <br>compte bancaire</th>
+                        <th>Iban</th>
+                        <th>Type de compte</th>
+                        <th class="w-1/6">Solde</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% set has_accounts = false %}
+                {% for account in accounts %}
+                    {% if account.user == app.user %}
+                        {% set has_accounts = true %}
+                        <tr>
+                            <td>{{ account.firstName }}</td>
+                            <td>{{ account.lastName }}</td>
+                            <td>{{ account.bankName }}</td>
+                            <td>{{ account.bankAccountNumber }}</td>
+                            <td>{{ account.iban|slice(0, 4) ~ '****' ~ account.iban|slice(-4) }}</td>
+                            <td>{{ account.accountType.value }}</td>
+                            <td>{{ account.bankBalance }} €</td>
+                            <td>
+                                <a href="{{ path('app_account_delete', {'id': account.id}) }}" class="btn btn-primary btn-sm rounded-md text-white">Delete</a>
+                                <a href="{{ path('app_account_edit', {'id': account.id}) }}" class="btn btn-secondary btn-sm rounded-md text-white">Edit</a>
+                            </td>
+                        </tr>
+                    {% endif %}
+                {% endfor %}
+                {% if not has_accounts %}
+                    <tr>
+                        <td colspan="8" class="text-center">Aucun compte trouvé</td>
+                    </tr>
+                {% endif %}
+                </tbody>
+            </table>
+        </div>
+        <a href="{{ path('app_account_new') }}" class="btn btn-primary rounded-md text-white mt-4">Create new</a>
+    </div>
+</div>
+{% endblock %}

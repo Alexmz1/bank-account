@@ -8,8 +8,8 @@ enum AccountTypeEnum: string
 {
     case PEL = 'PEL';
     case PEE = 'PEE';
-    case LIVRET = 'livret';
-    case LIVRET_A = 'livret A';
-    case LIVRET_JEUNE = 'livret jeune';
-    case COMPTE_COURANT = 'compte courant';
+    case LIVRET = 'Livret';
+    case LIVRET_A = 'Livret A';
+    case LIVRET_JEUNE = 'Livret jeune';
+    case COMPTE_COURANT = 'Compte courant';
 }
