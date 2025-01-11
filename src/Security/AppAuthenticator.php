@@ -48,7 +48,9 @@ class AppAuthenticator extends AbstractLoginFormAuthenticator
 
         // Vérifier si l'utilisateur est banni
         if (in_array('ROLE_BANNED', $user->getRoles(), true)) {
-            return new RedirectResponse($this->urlGenerator->generate('app_logout'));
+            $response = new Response();
+            $response->setContent('<script>alert("Vous êtes banni."); window.location.href="' . $this->urlGenerator->generate('app_logout') . '";</script>');
+            return $response;
         }
 
         // Redirection normale
