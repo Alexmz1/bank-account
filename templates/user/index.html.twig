@@ -22,6 +22,7 @@
                 <p class="text-md">{{ app.user.email }}</p>
                 <div class="mockup-window-action flex justify-end mt-4 w-full">
                     <a href="{{ path('app_user_edit', {'id': app.user.id}) }}" class="btn btn-primary rounded-md text-white">Modifier le profil</a>
+                    <a href="{{ path('app_logout') }}" class="btn btn-secondary rounded-md text-white ml-2">Déconnexion</a>
                 </div>
             </div>
         </div>
