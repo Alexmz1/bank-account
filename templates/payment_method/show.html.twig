@@ -1,0 +1,34 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}PaymentMethod{% endblock %}
+
+{% block body %}
+    <h1>PaymentMethod</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ payment_method.id }}</td>
+            </tr>
+            <tr>
+                <th>Name</th>
+                <td>{{ payment_method.name }}</td>
+            </tr>
+            <tr>
+                <th>CreatedAt</th>
+                <td>{{ payment_method.createdAt ? payment_method.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>UpdatedAt</th>
+                <td>{{ payment_method.updatedAt ? payment_method.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_payment_method_index') }}">back to list</a>
+
+    <a href="{{ path('app_payment_method_edit', {'id': payment_method.id}) }}">edit</a>
+
+    {{ include('payment_method/_delete_form.html.twig') }}
+{% endblock %}

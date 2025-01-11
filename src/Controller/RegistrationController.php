@@ -31,7 +31,7 @@ class RegistrationController extends AbstractController
             $user->setPassword($userPasswordHasher->hashPassword($user, $plainPassword));
 
             // set the default role to 'ROLE_USER'
-            $user->setRole(RoleUserEnum::USER);
+            $user->setRoles(["ROLE_USER"]);
 
             $user->setCreatedAt(new \DateTimeImmutable());
             $user->setUpdatedAt(new \DateTime());
