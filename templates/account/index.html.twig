@@ -43,8 +43,8 @@
                             <td>{{ account.accountType.value }}</td>
                             <td>{{ account.bankBalance }} €</td>
                             <td>
-                                <a href="{{ path('app_account_delete', {'id': account.id}) }}" class="btn btn-primary btn-sm rounded-md text-white">Delete</a>
-                                <a href="{{ path('app_account_edit', {'id': account.id}) }}" class="btn btn-secondary btn-sm rounded-md text-white">Edit</a>
+                                <a href="{{ path('app_account_edit', {'id': account.id}) }}" class="btn btn-primary btn-sm rounded-md text-white">Modifier</a>
+                                <a href="{{ path('app_account_delete', {'id': account.id}) }}" class="btn btn-secondary btn-sm rounded-md text-white">Supprimer</a>
                             </td>
                         </tr>
                     {% endif %}
@@ -57,7 +57,7 @@
                 </tbody>
             </table>
         </div>
-        <a href="{{ path('app_account_new') }}" class="btn btn-primary rounded-md text-white mt-4">Create new</a>
+        <a href="{{ path('app_account_new') }}" class="btn btn-primary rounded-md text-white mt-4">Ajouter un nouveau compte</a>
     </div>
 </div>
 {% endblock %}

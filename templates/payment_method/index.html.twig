@@ -36,8 +36,8 @@
                             <tr>
                                 <td>{{ payment_method.name }}</td>
                                 <td>
-                                    <a href="{{ path('app_payment_method_edit', {'id': payment_method.id}) }}" class="btn btn-primary rounded-md text-white">Update</a>
-                                    <a href="{{ path('app_payment_method_delete', {'id': payment_method.id}) }}" class="btn btn-secondary rounded-md text-white">Delete</a>
+                                    <a href="{{ path('app_payment_method_edit', {'id': payment_method.id}) }}" class="btn btn-primary rounded-md text-white">Modifier</a>
+                                    <a href="{{ path('app_payment_method_delete', {'id': payment_method.id}) }}" class="btn btn-secondary rounded-md text-white">Supprimer</a>
                                 </td>
                             </tr>
                         {% endif %}
@@ -49,7 +49,7 @@
                     {% endif %}
                 </table>
             </div>
-            <a href="{{ path('app_payment_method_new') }}" class="btn btn-primary rounded-md text-white mt-4">Create new</a>
+            <a href="{{ path('app_payment_method_new') }}" class="btn btn-primary rounded-md text-white mt-4">Ajouter une nouvelle <br>méthode de paiement</a>
         </div>
     </div>
 {% endblock %}
