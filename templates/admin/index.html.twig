@@ -1,0 +1,65 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Admin dashboard{% endblock %}
+
+{% block stylesheets %}
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@1.4.6/dist/full.css" rel="stylesheet">
+{% endblock %}
+
+{% block body %}
+<div class="flex min-h-screen bg-gray-100">
+
+    <!-- Main Content -->
+    <div class="flex-1 p-6 overflow-x-auto">
+        <h2 class="text-2xl font-bold mb-4 text-center">Admin dashboard</h2>
+
+        <!-- Table des utilisateurs -->
+        <div class="overflow-x-auto mt-10">
+            <table class="table w-full">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Email</th>
+                        <th>Roles</th>
+                        <th>Password</th>
+                        <th>FirstName</th>
+                        <th>LastName</th>
+                        <th>ProfilePicture</th>
+                        <th>CreatedAt</th>
+                        <th>UpdatedAt</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody">
+                {% for user in users %}
+                    <tr>
+                        <td>{{ user.id }}</td>
+                        <td>{{ user.email }}</td>
+                        <td>{{ user.roles ? user.roles|json_encode : '' }}</td>
+                        <td>{{ user.password }}</td>
+                        <td>{{ user.firstName }}</td>
+                        <td>{{ user.lastName }}</td>
+                        <td>{{ user.profilePicture }}</td>
+                        <td>{{ user.createdAt ? user.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+                        <td>{{ user.updatedAt ? user.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+                        <td>
+                            <a href="{{ path('app_admin_delete', {'id': user.id}) }}" class="btn btn-primary btn-sm rounded-md text-white">delete</a>
+                            <a href="{{ path('app_admin_edit', {'id': user.id}) }}" class="btn btn-secondary btn-sm rounded-md text-white">edit</a>
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="10" class="text-center">Aucun utilisateur trouvé.</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            <div class="flex justify-end mt-4">
+                <a href="{{ path('app_admin_new') }}" class="btn btn-primary rounded-md text-white mr-2">Créer un nouvel utilisateur</a>
+                <a href="{{ path('app_logout') }}" class="btn btn-secondary rounded-md text-white">Déconnexion</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -53,6 +53,11 @@ class AppAuthenticator extends AbstractLoginFormAuthenticator
             return $response;
         }
 
+        // Redirection si l'utilisateur est un administrateur
+        if (in_array('ROLE_ADMIN', $user->getRoles(), true)) {
+            return new RedirectResponse($this->urlGenerator->generate('app_admin_index'));
+        }
+
         // Redirection normale
         if ($targetPath = $this->getTargetPath($request->getSession(), $firewallName)) {
             return new RedirectResponse($targetPath);
