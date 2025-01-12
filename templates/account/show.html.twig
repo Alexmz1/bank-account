@@ -1,58 +1,58 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Account{% endblock %}
+{% block title %}Suppression du compte{% endblock %}
+
+{% block stylesheets %}
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@1.4.6/dist/full.css" rel="stylesheet">
+{% endblock %}
 
 {% block body %}
-    <h1>Account</h1>
+<div class="flex min-h-screen bg-gray-100">
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ account.id }}</td>
-            </tr>
-            <tr>
-                <th>FirstName</th>
-                <td>{{ account.firstName }}</td>
-            </tr>
-            <tr>
-                <th>LastName</th>
-                <td>{{ account.lastName }}</td>
-            </tr>
-            <tr>
-                <th>BankName</th>
-                <td>{{ account.bankName }}</td>
-            </tr>
-            <tr>
-                <th>BankAccountNumber</th>
-                <td>{{ account.bankAccountNumber }}</td>
-            </tr>
-            <tr>
-                <th>Iban</th>
-                <td>{{ account.iban }}</td>
-            </tr>
-            <tr>
-                <th>AccountType</th>
-                <td>{{ account.accountType.value }}</td>
-            </tr>
-            <tr>
-                <th>BankBalance</th>
-                <td>{{ account.bankBalance }}</td>
-            </tr>
-            <tr>
-                <th>CreatedAt</th>
-                <td>{{ account.createdAt ? account.createdAt|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-            <tr>
-                <th>UpdatedAt</th>
-                <td>{{ account.updatedAt ? account.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-        </tbody>
-    </table>
+    <!-- Main Content -->
+    <div class="flex-1 p-6 overflow-x-auto">
+        <h1 class="text-2xl font-bold mb-4 text-center">Suppression du compte</h1>
 
-    <a href="{{ path('app_account_index') }}">back to list</a>
+        <div class="overflow-x-auto mt-10">
+            <table class="table w-full">
+                <tbody>
+                    <tr>
+                        <th>Prénom</th>
+                        <td>{{ account.firstName }}</td>
+                    </tr>
+                    <tr>
+                        <th>Nom</th>
+                        <td>{{ account.lastName }}</td>
+                    </tr>
+                    <tr>
+                        <th>Nom de la banque</th>
+                        <td>{{ account.bankName }}</td>
+                    </tr>
+                    <tr>
+                        <th>Numéro du compte bancaire</th>
+                        <td>{{ account.bankAccountNumber }}</td>
+                    </tr>
+                    <tr>
+                        <th>Iban</th>
+                        <td>{{ account.iban|replace({'*': '*', ' ': ' '})|slice(0, 4) ~ '****' ~ account.iban|slice(-4) }}</td>
+                    </tr>
+                    <tr>
+                        <th>Type de compte</th>
+                        <td>{{ account.accountType.value }}</td>
+                    </tr>
+                    <tr>
+                        <th>Solde</th>
+                        <td>{{ account.bankBalance }} €</td>
+                    </tr>
+                    <tr>
+                </tbody>
+            </table>
+        </div>
 
-    <a href="{{ path('app_account_edit', {'id': account.id}) }}">edit</a>
+        <a href="{{ path('app_account_index') }}" class="btn btn-primary rounded-md text-white mt-4">Retourner à la liste des comptes</a>
 
-    {{ include('account/_delete_form.html.twig') }}
+        {{ include('account/_delete_form.html.twig') }}
+    </div>
+</div>
 {% endblock %}

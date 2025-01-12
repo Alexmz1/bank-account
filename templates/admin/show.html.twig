@@ -1,54 +1,65 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}User{% endblock %}
+{% block title %}Suppression de l'utilisateur{% endblock %}
+
+{% block stylesheets %}
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@1.4.6/dist/full.css" rel="stylesheet">
+{% endblock %}
 
 {% block body %}
-    <h1>User</h1>
+<div class="flex min-h-screen bg-gray-100">
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ user.id }}</td>
-            </tr>
-            <tr>
-                <th>Email</th>
-                <td>{{ user.email }}</td>
-            </tr>
-            <tr>
-                <th>Roles</th>
-                <td>{{ user.roles ? user.roles|json_encode : '' }}</td>
-            </tr>
-            <tr>
-                <th>Password</th>
-                <td>{{ user.password }}</td>
-            </tr>
-            <tr>
-                <th>CreatedAt</th>
-                <td>{{ user.createdAt ? user.createdAt|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-            <tr>
-                <th>UpdatedAt</th>
-                <td>{{ user.updatedAt ? user.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-            <tr>
-                <th>FirstName</th>
-                <td>{{ user.firstName }}</td>
-            </tr>
-            <tr>
-                <th>LastName</th>
-                <td>{{ user.lastName }}</td>
-            </tr>
-            <tr>
-                <th>ProfilePicture</th>
-                <td>{{ user.profilePicture }}</td>
-            </tr>
-        </tbody>
-    </table>
+    <!-- Main Content -->
+    <div class="flex-1 p-6 overflow-x-auto">
+        <h1 class="text-2xl font-bold mb-4 text-center">Supprimer l'utilisateur</h1>
 
-    <a href="{{ path('app_admin_index') }}">back to list</a>
+        <div class="overflow-x-auto mt-10">
+            <table class="table w-full">
+                <tbody>
+                    <tr>
+                        <th>Id</th>
+                        <td>{{ user.id }}</td>
+                    </tr>
+                    <tr>
+                        <th>Email</th>
+                        <td>{{ user.email }}</td>
+                    </tr>
+                    <tr>
+                        <th>Role</th>
+                        <td>{{ user.roles ? user.roles|json_encode : '' }}</td>
+                    </tr>
+                    <tr>
+                        <th>Mot de passe</th>
+                        <td>{{ user.password }}</td>
+                    </tr>
+                    <tr>
+                        <th>Créé le</th>
+                        <td>{{ user.createdAt ? user.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+                    </tr>
+                    <tr>
+                        <th>Modifié le</th>
+                        <td>{{ user.updatedAt ? user.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+                    </tr>
+                    <tr>
+                        <th>Prénom</th>
+                        <td>{{ user.firstName }}</td>
+                    </tr>
+                    <tr>
+                        <th>Nom</th>
+                        <td>{{ user.lastName }}</td>
+                    </tr>
+                    <tr>
+                        <th>Photo de profil</th>
+                        <td>{{ user.profilePicture }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
 
-    <a href="{{ path('app_admin_edit', {'id': user.id}) }}">edit</a>
+        <a href="{{ path('app_admin_index') }}" class="btn btn-primary rounded-md text-white mt-4">Retourner à la liste des utilisateurs</a>
 
-    {{ include('admin/_delete_form.html.twig') }}
+        {{ include('admin/_delete_form.html.twig') }}
+    </div>
+</div>
 {% endblock %}
