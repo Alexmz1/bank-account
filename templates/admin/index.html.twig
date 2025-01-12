@@ -16,44 +16,44 @@
 
         <!-- Table des utilisateurs -->
         <div class="overflow-x-auto mt-10">
-            <table class="table w-full">
+            <table class="table table-xs">
                 <thead>
                     <tr>
                         <th>Id</th>
                         <th>Email</th>
-                        <th>Roles</th>
-                        <th>Password</th>
-                        <th>FirstName</th>
-                        <th>LastName</th>
-                        <th>ProfilePicture</th>
-                        <th>CreatedAt</th>
-                        <th>UpdatedAt</th>
+                        <th>Role</th>
+                        <th>Mot de passe</th>
+                        <th>Prénom</th>
+                        <th>Nom</th>
+                        <th>Photo de profil</th>
+                        <th>Créé le</th>
+                        <th>Modifié le</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
-                <tbody">
-                {% for user in users %}
+                <tbody>
+                    {% for user in users %}
                     <tr>
                         <td>{{ user.id }}</td>
                         <td>{{ user.email }}</td>
                         <td>{{ user.roles ? user.roles|json_encode : '' }}</td>
-                        <td>{{ user.password }}</td>
+                        <td>{{ user.password|slice(0, 15) ~ '...' }}</td>
                         <td>{{ user.firstName }}</td>
                         <td>{{ user.lastName }}</td>
                         <td>{{ user.profilePicture }}</td>
                         <td>{{ user.createdAt ? user.createdAt|date('Y-m-d H:i:s') : '' }}</td>
                         <td>{{ user.updatedAt ? user.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
                         <td>
-                            <a href="{{ path('app_admin_delete', {'id': user.id}) }}" class="btn btn-primary btn-sm rounded-md text-white">delete</a>
-                            <a href="{{ path('app_admin_edit', {'id': user.id}) }}" class="btn btn-secondary btn-sm rounded-md text-white">edit</a>
+                            <a href="{{ path('app_admin_edit', {'id': user.id}) }}" class="btn btn-secondary btn-xs rounded-md text-white">Modifier</a>
+                            <a href="{{ path('app_admin_delete', {'id': user.id}) }}" class="btn btn-primary btn-xs rounded-md text-white">Supprimer</a>
                         </td>
                     </tr>
-                {% else %}
-                    <tr>
-                        <td colspan="10" class="text-center">Aucun utilisateur trouvé.</td>
-                    </tr>
-                {% endfor %}
-                </tbody>
+                    {% else %}
+                        <tr>
+                            <td colspan="10" class="text-center">Aucun utilisateur trouvé.</td>
+                        </tr>
+                    {% endfor %}
+                </tfoot>
             </table>
         </div>
         <div class="flex justify-end mt-4">

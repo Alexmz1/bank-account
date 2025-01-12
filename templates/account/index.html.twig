@@ -15,6 +15,22 @@
     <!-- Main Content -->
     <div class="flex-1 p-6 overflow-x-auto">
         <h1 class="text-2xl font-bold mb-4 text-center">Mes comptes</h1>
+        
+        <!-- Filter Form -->
+        <form method="get" class="mb-4 text-right" id="filterForm">
+            <label for="accountType" class="block mb-2">Filtrer par type de compte</label>
+            <select name="accountType" id="accountType" class="select select-bordered border-primary select-sm w-1/5 max-w-xs" onchange="document.getElementById('filterForm').submit();">
+            <option value="">Tous les comptes</option>
+            <option value="PEL" {% if app.request.query.get('accountType') == 'PEL' %}selected{% endif %}>PEL</option>
+            <option value="PEE" {% if app.request.query.get('accountType') == 'PEE' %}selected{% endif %}>PEE</option>
+            <option value="Livret" {% if app.request.query.get('accountType') == 'Livret' %}selected{% endif %}>Livret</option>
+            <option value="Livret A" {% if app.request.query.get('accountType') == 'Livret A' %}selected{% endif %}>Livret A</option>
+            <option value="Livret jeune" {% if app.request.query.get('accountType') == 'Livret jeune' %}selected{% endif %}>Livret jeune</option>
+            <option value="Compte courant" {% if app.request.query.get('accountType') == 'Compte courant' %}selected{% endif %}>Compte courant</option>
+            </select>
+        </form>
+
+        <!-- Table -->
         <div class="overflow-x-auto mt-10">
             <table class="table w-full">
                 <thead>
@@ -32,7 +48,7 @@
                 <tbody>
                 {% set has_accounts = false %}
                 {% for account in accounts %}
-                    {% if account.user == app.user %}
+                    {% if account.user == app.user and (app.request.query.get('accountType') == '' or app.request.query.get('accountType') == account.accountType.value) %}
                         {% set has_accounts = true %}
                         <tr>
                             <td>{{ account.firstName }}</td>
@@ -58,6 +74,20 @@
             </table>
         </div>
         <a href="{{ path('app_account_new') }}" class="btn btn-primary rounded-md text-white mt-4">Ajouter un nouveau compte</a>
+        <div role="alert" class="alert mt-10">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              class="stroke-info h-6 w-6 shrink-0">
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+            </svg>
+            <span>Cliquer sur un ligne du tableau pour voir les détails des transactions associées au compte.</span>
+        </div>
     </div>
 </div>
 {% endblock %}

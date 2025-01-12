@@ -46,7 +46,7 @@
             <img class="w-8 h-8 rounded-full" src="{{ app.user.profilePicture ? asset('uploads/profile_pictures/' ~ app.user.profilePicture) : asset('default-profile-picture.png') }}" alt="User Avatar">
             <span>{{ app.user.firstName }} {{ app.user.lastName }}</span>
             </a>
-            <a href="{{ path('app_logout') }}" class="btn btn-secondary rounded-md text-white text-sm py-1 px-2">Déconnexion</a>
+            <a href="{{ path('app_logout') }}" class="btn btn-secondary btn-xs rounded-md text-white">Déconnexion</a>
         </div>
     </div>
 </aside>
