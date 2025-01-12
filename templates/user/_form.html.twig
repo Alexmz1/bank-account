@@ -35,14 +35,19 @@
         <div>
             <label for="{{ form.profilePicture.vars.id }}" class="block text-sm/6 font-medium text-gray-900">Photo de profil (optionnel)</label>
             {{ form_widget(form.profilePicture, {
-            'attr': {'class': 'hidden', 'accept': 'image/*'},
+            'attr': {'class': 'hidden', 'accept': 'image/*', 'onchange': 'updateFileName(this)'},
             'type': 'file'
             }) }}
-            <label for="{{ form.profilePicture.vars.id }}" class="mt-2 block w-full cursor-pointer rounded-md border border-gray-300 bg-white px-3 py-1.5 text-base text-gray-900 text-center outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-secondary sm:text-sm/6">
+            <label id="file-label" for="{{ form.profilePicture.vars.id }}" class="mt-2 block w-full cursor-pointer rounded-md border border-gray-300 bg-white px-3 py-1.5 text-base text-gray-900 text-center outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-secondary sm:text-sm/6">
             Choisir un fichier
             </label>
         </div>
-    
+        <script>
+            function updateFileName(input) {
+            var fileName = input.files[0] ? input.files[0].name : 'Choisir un fichier';
+            document.getElementById('file-label').textContent = fileName;
+            }
+        </script>
         <div>
             <button type="submit" class="flex w-full justify-center rounded-md btn btn-secondary text-white">Confirmer</button>
         </div>
