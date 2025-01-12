@@ -1,0 +1,49 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Supprimer transaction{% endblock %}
+
+{% block stylesheets %}
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@1.4.6/dist/full.css" rel="stylesheet">
+{% endblock %}
+
+{% block body %}
+<div class="flex min-h-screen bg-gray-100">
+
+    <!-- Main Content -->
+    <div class="flex-1 p-6 overflow-x-auto">
+        <h1 class="text-2xl font-bold mb-4 text-center">Supression de la transaction</h1>
+
+        <div class="overflow-x-auto mt-10">
+            <table class="table w-full">
+                <tbody>
+                    <tr>
+                        <th>Pointé</th>
+                        <td>{{ transaction.point ? 'Oui' : 'Non' }}</td>
+                    </tr>
+                    <tr>
+                        <th>Montant</th>
+                        <td>{{ transaction.amount }} €</td>
+                    </tr>
+                    <tr>
+                        <th>Moyent de transaction</th>
+                        <td>{{ transaction.paymentMethod.name }}</td>
+                    <tr>
+                        <th>Type d'opération</th>
+                        <td>{{ transaction.operationType.value }}</td>
+                    </tr>
+                    <tr>
+                        <th>Description</th>
+                        <td>{{ transaction.description }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        {{ include('transaction/_delete_form.html.twig') }}
+
+        <a href="{{ path('app_transaction_index') }}" class="btn btn-primary rounded-md text-white mt-4">Retourner à la liste des transactions</a>
+        
+    </div>
+</div>
+{% endblock %}

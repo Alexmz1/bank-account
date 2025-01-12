@@ -1,0 +1,61 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Vos transaction{% endblock %}
+
+{% block stylesheets %}
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@1.4.6/dist/full.css" rel="stylesheet">
+{% endblock %}
+
+{% block body %}
+<div class="flex min-h-screen bg-gray-100">
+
+    {% include 'parts/left_bar.html.twig' with {'class': 'w-1/6'} %}
+
+    <!-- Main Content -->
+    <div class="flex-1 p-6 overflow-x-auto">
+        <h1 class="text-2xl font-bold mb-4 text-center">Transaction</h1>
+
+        <div class="overflow-x-auto mt-10">
+            <table class="table w-full">
+                <thead>
+                    <tr>
+                        <th>Pointage</th>
+                        <th>Montant</th>
+                        <th>Moyen de paiement</th>
+                        <th>Type d'opération</th>
+                        <th>Description</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% set has_transactions = false %}
+                {% for transaction in transactions %}
+                    {% if transaction.account.user == app.user %}
+                    {% set has_transactions = true %}
+                    <tr>
+                        <td><input type="checkbox" class="checkbox" {% if transaction.point %}checked{% endif %}></td>
+                        <td>{{ transaction.amount }} €</td>
+                        <td>{{ transaction.paymentMethod.name }}</td>
+                        <td>{{ transaction.operationType.value }}</td>
+                        <td>{{ transaction.description }}</td>
+                        <td>
+                            <a href="{{ path('app_transaction_edit', {'id': transaction.id}) }}" class="btn btn-primary btn-xs rounded-md text-white">Modifier</a>
+                            <a href="{{ path('app_transaction_delete', {'id': transaction.id}) }}" class="btn btn-secondary btn-xs rounded-md text-white">Supprimer</a>
+                        </td>
+                    </tr>
+                    {% endif %}
+                {% endfor %}
+                {% if not has_transactions %}
+                    <tr>
+                        <td colspan="6" class="text-center">no records found</td>
+                    </tr>
+                {% endif %}
+                </tbody>
+            </table>
+        </div>
+        <a href="{{ path('app_transaction_new') }}" class="btn btn-primary rounded-md text-white mt-4">Ajouter une transaction</a>
+        <a href="{{ path('app_account_index') }}" class="btn btn-secondary rounded-md text-white mt-4">Retouner à vos comptes</a>
+    </div>
+</div>
+{% endblock %}

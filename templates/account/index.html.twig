@@ -35,12 +35,12 @@
             <table class="table w-full">
                 <thead>
                     <tr>
+                        <th>Type de compte</th>
                         <th>Prénom</th>
                         <th>Nom</th>
                         <th>Nom de la banque</th>
                         <th>Numéro du <br>compte bancaire</th>
                         <th>Iban</th>
-                        <th>Type de compte</th>
                         <th class="w-1/6">Solde</th>
                         <th>Actions</th>
                     </tr>
@@ -50,17 +50,17 @@
                 {% for account in accounts %}
                     {% if account.user == app.user and (app.request.query.get('accountType') == '' or app.request.query.get('accountType') == account.accountType.value) %}
                         {% set has_accounts = true %}
-                        <tr>
+                        <tr onclick="window.location.href='{{ path('app_transaction_index', {'accountId': account.id}) }}'" class="cursor-pointer">
+                            <td>{{ account.accountType.value }}</td>
                             <td>{{ account.firstName }}</td>
                             <td>{{ account.lastName }}</td>
                             <td>{{ account.bankName }}</td>
                             <td>{{ account.bankAccountNumber }}</td>
                             <td>{{ account.iban|slice(0, 4) ~ '****' ~ account.iban|slice(-4) }}</td>
-                            <td>{{ account.accountType.value }}</td>
                             <td>{{ account.bankBalance }} €</td>
                             <td>
-                                <a href="{{ path('app_account_edit', {'id': account.id}) }}" class="btn btn-primary btn-sm rounded-md text-white">Modifier</a>
-                                <a href="{{ path('app_account_delete', {'id': account.id}) }}" class="btn btn-secondary btn-sm rounded-md text-white">Supprimer</a>
+                                <a href="{{ path('app_account_edit', {'id': account.id}) }}" class="btn btn-primary btn-xs rounded-md text-white">Modifier</a>
+                                <a href="{{ path('app_account_delete', {'id': account.id}) }}" class="btn btn-secondary btn-xs rounded-md text-white">Supprimer</a>
                             </td>
                         </tr>
                     {% endif %}
@@ -86,7 +86,7 @@
                 stroke-width="2"
                 d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
             </svg>
-            <span>Cliquer sur un ligne du tableau pour voir les détails des transactions associées au compte.</span>
+            <span>Cliquer sur le compte pour accéder au détail des transactions.</span>
         </div>
     </div>
 </div>
