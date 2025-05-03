@@ -9,7 +9,6 @@
 
 {% block body %}
 <div class="flex min-h-screen bg-gray-100">
-
     {% include 'parts/left_bar.html.twig' with {'class': 'w-1/6'} %}
 
     <!-- Main Content -->
@@ -19,27 +18,6 @@
         <div class="mb-4 w-1/2">
             <input type="text" id="search" class="input input-bordered w-full" placeholder="Rechercher une transaction...">
         </div>
-
-        <script>
-            document.getElementById('search').addEventListener('input', function() {
-            let filter = this.value.toLowerCase();
-            let rows = document.querySelectorAll('tbody tr');
-            rows.forEach(row => {
-                let cells = row.querySelectorAll('td');
-                let match = false;
-                cells.forEach(cell => {
-                if (cell.textContent.toLowerCase().includes(filter)) {
-                    match = true;
-                }
-                });
-                if (match) {
-                    row.style.display = '';
-                } else {
-                    row.style.display = 'none';
-                }
-            });
-            });
-        </script>
 
         <div class="overflow-x-auto mt-10">
             <table class="table w-full">
@@ -57,18 +35,20 @@
                 {% set has_transactions = false %}
                 {% for transaction in transactions %}
                     {% if transaction.account.user == app.user %}
-                    {% set has_transactions = true %}
-                    <tr>
-                        <td><input type="checkbox" class="checkbox" {% if transaction.point %}checked{% endif %}></td>
-                        <td>{{ transaction.amount }} €</td>
-                        <td>{{ transaction.paymentMethod.name }}</td>
-                        <td>{{ transaction.operationType.value }}</td>
-                        <td>{{ transaction.description }}</td>
-                        <td>
-                            <a href="{{ path('app_transaction_edit', {'id': transaction.id}) }}" class="btn btn-primary btn-xs rounded-md text-white">Modifier</a>
-                            <a href="{{ path('app_transaction_delete', {'id': transaction.id}) }}" class="btn btn-secondary btn-xs rounded-md text-white">Supprimer</a>
-                        </td>
-                    </tr>
+                        {% set has_transactions = true %}
+                        <tr {% if transaction.point %}class="hidden"{% endif %}>
+                            <td>
+                                <input type="checkbox" class="checkbox toggle-visibility" data-id="{{ transaction.id }}" {% if transaction.point %}checked{% endif %}>
+                            </td>
+                            <td>{{ transaction.amount }} €</td>
+                            <td>{{ transaction.paymentMethod.name }}</td>
+                            <td>{{ transaction.operationType.value }}</td>
+                            <td>{{ transaction.description }}</td>
+                            <td>
+                                <a href="{{ path('app_transaction_edit', {'id': transaction.id}) }}" class="btn btn-primary btn-xs rounded-md text-white">Modifier</a>
+                                <a href="{{ path('app_transaction_delete', {'id': transaction.id}) }}" class="btn btn-secondary btn-xs rounded-md text-white">Supprimer</a>
+                            </td>
+                        </tr>
                     {% endif %}
                 {% endfor %}
                 {% if not has_transactions %}
@@ -78,9 +58,78 @@
                 {% endif %}
                 </tbody>
             </table>
+
+            <button id="toggleHidden" class="btn mt-4">Afficher les transactions masquées</button>
+
+            <a href="{{ path('app_transaction_new') }}" class="btn btn-primary rounded-md text-white mt-4">Ajouter une transaction</a>
+            <a href="{{ path('app_account_index') }}" class="btn btn-secondary rounded-md text-white mt-4">Retouner à vos comptes</a>
         </div>
-        <a href="{{ path('app_transaction_new') }}" class="btn btn-primary rounded-md text-white mt-4">Ajouter une transaction</a>
-        <a href="{{ path('app_account_index') }}" class="btn btn-secondary rounded-md text-white mt-4">Retouner à vos comptes</a>
     </div>
 </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const toggleBtn = document.getElementById('toggleHidden');
+    let showingHidden = false;
+
+    // Recherche en temps réel
+    document.getElementById('search').addEventListener('input', function () {
+        let filter = this.value.toLowerCase();
+        document.querySelectorAll('tbody tr').forEach(row => {
+            let match = Array.from(row.querySelectorAll('td')).some(cell =>
+                cell.textContent.toLowerCase().includes(filter)
+            );
+            row.style.display = match ? '' : 'none';
+        });
+    });
+
+    // Toggle checkbox + enregistrement + masquage
+    document.querySelectorAll('.toggle-visibility').forEach(checkbox => {
+        checkbox.addEventListener('change', function () {
+            const transactionId = this.dataset.id;
+            const isChecked = this.checked;
+            const row = this.closest('tr');
+
+            fetch(`/transaction/${transactionId}/toggle`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-Requested-With': 'XMLHttpRequest',
+                },
+                body: JSON.stringify({ point: isChecked })
+            }).then(response => {
+                if (response.ok) {
+                    // Si case cochée, masquer sauf si on est déjà en mode "voir masqués"
+                    if (isChecked && !showingHidden) {
+                        row.classList.add('hidden');
+                    }
+                    // Si décochée, toujours la réafficher
+                    if (!isChecked) {
+                        row.classList.remove('hidden');
+                    }
+                } else {
+                    // rollback checkbox si échec
+                    this.checked = !isChecked;
+                }
+            });
+        });
+    });
+
+    // Bouton pour afficher/cacher les lignes masquées
+    toggleBtn.addEventListener('click', function () {
+        showingHidden = !showingHidden;
+
+        document.querySelectorAll('.toggle-visibility').forEach(checkbox => {
+            const row = checkbox.closest('tr');
+            if (checkbox.checked) {
+                row.classList.toggle('hidden', !showingHidden);
+            }
+        });
+
+        toggleBtn.textContent = showingHidden
+            ? 'Cacher les transactions masquées'
+            : 'Afficher les transactions masquées';
+    });
+});
+</script>
 {% endblock %}

@@ -9,14 +9,34 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Attribute\Route;
 
 #[Route('/transaction')]
 final class TransactionController extends AbstractController
 {
+
+    #[Route('/{id}/toggle', name: 'transaction_toggle', methods: ['POST'])]
+    public function toggle(Transaction $transaction, Request $request, EntityManagerInterface $em): JsonResponse
+    {
+        $data = json_decode($request->getContent(), true);
+
+        if (isset($data['point'])) {
+            $transaction->setPoint($data['point']);
+            $em->flush();
+
+            return new JsonResponse(['success' => true]);
+        }
+
+        return new JsonResponse(['success' => false], 400);
+    }
+    
     #[Route(name: 'app_transaction_index', methods: ['GET'])]
     public function index(TransactionRepository $transactionRepository): Response
     {
+        ///** @var User $user */
+        //$user = $this->getUser();
+
         return $this->render('transaction/index.html.twig', [
             'transactions' => $transactionRepository->findAll(),
         ]);
