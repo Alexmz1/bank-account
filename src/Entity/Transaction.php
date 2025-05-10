@@ -16,7 +16,7 @@ class Transaction
     private ?int $id = null;
 
     #[ORM\Column]
-    private ?bool $point = null;
+    private ?bool $point = false;
 
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 0)]
     private ?string $amount = null;
