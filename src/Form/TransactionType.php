@@ -29,7 +29,7 @@ class TransactionType extends AbstractType
             ->add('description')
             ->add('paymentMethod', EntityType::class, [
                 'class' => PaymentMethod::class,
-                'choice_label' => 'id',
+                'choice_label' => 'name',
             ])
         ;
     }
